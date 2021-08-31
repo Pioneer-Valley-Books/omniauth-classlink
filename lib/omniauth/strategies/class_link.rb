@@ -24,6 +24,22 @@ module OmniAuth
         end
       end
 
+      def callback_phase
+        error = request.params["error_reason"] || request.params["error"]
+        stored_state = session.delete("omniauth.state")
+        if error
+          fail!(error, CallbackError.new(request.params["error"], request.params["error_description"] || request.params["error_reason"], request.params["error_uri"]))
+        else
+          # Only verify state if we've initiated login and have stored a state
+          # to compare to.
+          if stored_state && (!request.params["state"] || request.params["state"] != stored_state)
+            fail!(:csrf_detected, CallbackError.new(:csrf_detected, "CSRF detected"))
+          else
+            super
+          end
+        end
+      end
+
       info do
         {
           first_name: raw_info['FirstName'],
