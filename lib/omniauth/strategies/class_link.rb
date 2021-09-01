@@ -17,6 +17,11 @@ module OmniAuth
         raw_info[options.uid_field.to_s]
       end
 
+      # This option bubbles up to the OmniAuth::Strategies::OAuth2
+      # when we call super in the callback_phase below.
+      # **State will still be verified** when login is initiated by the client.
+      option :provider_ignores_state, true
+
       def authorize_params
         super.tap do |params|
           params[:scope] = [:email, :profile]
