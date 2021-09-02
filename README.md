@@ -1,5 +1,9 @@
 [![Gem Version](https://badge.fury.io/rb/omniauth-classlink.svg)](https://badge.fury.io/rb/omniauth-classlink)
 
+# Fork
+
+The reason we have forked this is to allow for ignoring provider state if we are directly linking into the classlink omniauth callback route.  THis method is modeled after the omniauth-clever gem. Without the ignore provider state option and handling links from the classlink portal will always fail with a csrf error.
+
 # OmniAuth ClassLink
 Unofficial OmniAuth strategy for [ClassLink](https://classlink.com) integration.
 
